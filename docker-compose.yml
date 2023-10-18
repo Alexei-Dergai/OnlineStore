@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  onlinestore.basketservice.api:
+    image: ${DOCKER_REGISTRY-}onlinestorebasketserviceapi
+    build:
+      context: .
+      dockerfile: src/OnlineStore.BasketService/OnlineStore.BasketService.API/Dockerfile
+
+  onlinestore.catalogservice.api:
+    image: ${DOCKER_REGISTRY-}onlinestorecatalogserviceapi
+    build:
+      context: .
+      dockerfile: src/OnlineStore.CatalogService/OnlineStore.CatalogService.API/Dockerfile
+
+
+  onlinestore.identityservice.api:
+    image: ${DOCKER_REGISTRY-}onlinestoreidentityserviceapi
+    build:
+      context: .
+      dockerfile: src/OnlineStore.IdentityService/OnlineStore.IdentityService.API/Dockerfile
+
+
+  onlinestore.orderservice.api:
+    image: ${DOCKER_REGISTRY-}onlinestoreorderserviceapi
+    build:
+      context: .
+      dockerfile: src/OnlineStore.OrderService/OnlineStore.OrderService.API/Dockerfile
+
