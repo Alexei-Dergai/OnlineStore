@@ -36,6 +36,10 @@ builder.Services.AddAuthentication(options =>
 //Adding JWT Bearer
 .AddJwtBearer(options =>
 {
+    var jwtSettings = new JWTSettings();
+
+    configuration.Bind(JWTSettings.SectionName, jwtSettings);
+
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
@@ -46,9 +50,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"])
+        ValidAudience = jwtSettings.ValidAudience,
+        ValidIssuer = jwtSettings.ValidIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret!)
     )};
 });
 
