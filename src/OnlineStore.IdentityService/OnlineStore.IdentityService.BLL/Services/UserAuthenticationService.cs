@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
@@ -27,7 +28,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             _tokenService = tokenService;
         }
 
-        public async Task<AuthenticationResult> Login(string? userName, string? password)
+        public async Task<AuthenticationResult> LoginAsync(string? userName, string? password)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
@@ -68,7 +69,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             throw new UnauthorizedAccessException();
         }
 
-        public async Task Register(string? userName, string? password, string? email)
+        public async Task RegisterAsync(string? userName, string? password, string? email)
         {
             var userExists = await _userManager.FindByNameAsync(userName);
 
@@ -102,7 +103,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             }
         }
 
-        public async Task RegisterAdmin(string? userName, string? email, string? password)
+        public async Task RegisterAdminAsync(string? userName, string? email, string? password)
         {
             var userExists = await _userManager.FindByNameAsync(userName);
 
@@ -136,7 +137,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             }
         }
 
-        public async Task<AuthenticationResult> RefreshToken(string? accessToken, string? refreshToken )
+        public async Task<AuthenticationResult> RefreshTokenAsync(string? accessToken, string? refreshToken )
         {
             var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
 
@@ -169,7 +170,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             };
         }
 
-        public async Task Revoke(string username)
+        public async Task RevokeAsync(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
 
@@ -182,9 +183,9 @@ namespace OnlineStore.IdentityService.BLL.Services
             await _userManager.UpdateAsync(user);
         }
 
-        public async Task RevokeAll()
+        public async Task RevokeAllAsync()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _userManager.Users.ToListAsync();
 
             foreach (var user in users)
             {

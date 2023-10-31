@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.IdentityService.API.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
+using OnlineStore.IdentityService.DAL.Data;
 
 namespace OnlineStore.IdentityService.API.Controllers
 {
@@ -10,7 +11,6 @@ namespace OnlineStore.IdentityService.API.Controllers
     public class AuthenticateController : ControllerBase
     {
         private readonly IUserAuthenticationService _userAuthenticationService;
-
 
         public AuthenticateController(
             IUserAuthenticationService userAuthenticationService)
@@ -24,7 +24,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                var loginResult = await _userAuthenticationService.Login(model.UserName, model.Password);
+                var loginResult = await _userAuthenticationService.LoginAsync(model.UserName, model.Password);
 
                 return Ok(loginResult);
             }
@@ -40,7 +40,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                await _userAuthenticationService.Register(model.UserName, model.Email, model.Password);
+                await _userAuthenticationService.RegisterAsync(model.UserName, model.Email, model.Password);
 
                 return Ok(new Response
                 {
@@ -60,7 +60,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                await _userAuthenticationService.RegisterAdmin(model.UserName, model.Email, model.Password);
+                await _userAuthenticationService.RegisterAdminAsync(model.UserName, model.Email, model.Password);
 
                 return Ok(new Response
                 {
@@ -82,10 +82,9 @@ namespace OnlineStore.IdentityService.API.Controllers
             {
                 return BadRequest("Invalid client request");
             }
-
             try
             {
-                var refreshTokenResult = await _userAuthenticationService.RefreshToken(tokenModel.AccessToken, tokenModel.RefreshToken);
+                var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(tokenModel.AccessToken, tokenModel.RefreshToken);
 
                 return Ok(refreshTokenResult);
             }
@@ -102,9 +101,9 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                await _userAuthenticationService.Revoke(username);
+                await _userAuthenticationService.RevokeAsync(username);
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -112,14 +111,14 @@ namespace OnlineStore.IdentityService.API.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         [Route("revoke-all")]
         public async Task<IActionResult> RevokeAll()
         {
-            await _userAuthenticationService.RevokeAll();
+            await _userAuthenticationService.RevokeAllAsync();
 
-            return Ok();
+            return NoContent();
         }
     }
 }
