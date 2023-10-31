@@ -97,10 +97,7 @@ namespace OnlineStore.IdentityService.BLL.Services
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
             }
 
-            if (await _roleManager.RoleExistsAsync(UserRoles.User))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
+            await _userManager.AddToRoleAsync(user, UserRoles.User);
         }
 
         public async Task RegisterAdminAsync(RegisterModel model)
@@ -131,10 +128,7 @@ namespace OnlineStore.IdentityService.BLL.Services
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             }
 
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
+            await _userManager.AddToRoleAsync(user, UserRoles.Admin);
         }
 
         public async Task<AuthenticationResult> RefreshTokenAsync(TokenModel model)
