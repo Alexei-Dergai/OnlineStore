@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
+using OnlineStore.IdentityService.BLL.Settings;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -10,22 +11,21 @@ namespace OnlineStore.IdentityService.BLL.Services
 {
     public class TokenService : ITokenService
     {
-        private readonly IConfiguration _configuration;
+        private readonly JWTSettings _jwtSettings;
 
-        public TokenService(IConfiguration configuration)
+        public TokenService(IOptions<JWTSettings> jwtSettings)
         {
-            _configuration = configuration;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public JwtSecurityToken CreateToken(List<Claim> authClaims)
         {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-            _ = int.TryParse(_configuration["JWT:TokenValidityInMinutes"], out int tokenValidityInMinutes);
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret!));
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddMinutes(tokenValidityInMinutes),
+                issuer: _jwtSettings.ValidIssuer!,
+                audience: _jwtSettings.ValidAudience,
+                expires: DateTime.Now.AddMinutes(_jwtSettings.TokenValidityInMinutes),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
 
@@ -50,7 +50,7 @@ namespace OnlineStore.IdentityService.BLL.Services
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"])),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret!)),
                 ValidateLifetime = false
             };
 

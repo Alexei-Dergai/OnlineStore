@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
+using OnlineStore.IdentityService.BLL.Settings;
 using OnlineStore.IdentityService.DAL.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,18 +14,18 @@ namespace OnlineStore.IdentityService.BLL.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IConfiguration _configuration;
+        private readonly JWTSettings _jwtSettings;
         private readonly ITokenService _tokenService;
 
         public UserAuthenticationService(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration,
+            IOptions<JWTSettings> jwtSettings,
             ITokenService tokenService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _configuration = configuration;
+            _jwtSettings = jwtSettings.Value;
             _tokenService = tokenService;
         }
 
@@ -51,10 +52,8 @@ namespace OnlineStore.IdentityService.BLL.Services
                 var token = _tokenService.CreateToken(authClaims);
                 var refreshToken = _tokenService.GenerateRefreshToken();
 
-                _ = int.TryParse(_configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
-
                 user.RefreshToken = refreshToken;
-                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
+                user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_jwtSettings.RefreshTokenValidityInDays);
 
                 await _userManager.UpdateAsync(user);
 

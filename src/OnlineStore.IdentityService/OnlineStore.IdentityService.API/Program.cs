@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineStore.IdentityService.BLL.Services;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
+using OnlineStore.IdentityService.BLL.Settings;
 using OnlineStore.IdentityService.DAL.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+
+builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.SectionName));
 
 // Register services
 builder.Services.AddScoped<ITokenService, TokenService>();
