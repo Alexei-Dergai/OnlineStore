@@ -1,9 +1,12 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineStore.IdentityService.API.Extensions;
+using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Settings;
+using OnlineStore.IdentityService.BLL.Validators;
 using OnlineStore.IdentityService.DAL.Data;
 using System.Text;
 
@@ -14,6 +17,9 @@ builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.Sec
 
 // Register services
 builder.Services.AddServicesRegistration();
+
+builder.Services.AddScoped<IValidator<LoginModel>, LoginModelValidator>();
+builder.Services.AddScoped<IValidator<RegisterModel>, RegisterModelValidator>();
 
 //For EF
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
