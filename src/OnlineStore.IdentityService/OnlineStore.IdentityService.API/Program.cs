@@ -17,9 +17,7 @@ builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.Sec
 
 // Register services
 builder.Services.AddServicesRegistration();
-
-builder.Services.AddScoped<IValidator<LoginModel>, LoginModelValidator>();
-builder.Services.AddScoped<IValidator<RegisterModel>, RegisterModelValidator>();
+builder.Services.AddValidatorsRegistration();
 
 //For EF
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));

@@ -1,5 +1,8 @@
 ﻿using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.BLL.Services;
+using FluentValidation;
+using OnlineStore.IdentityService.BLL.Models;
+using OnlineStore.IdentityService.BLL.Validators;
 
 namespace OnlineStore.IdentityService.API.Extensions
 {
@@ -9,6 +12,12 @@ namespace OnlineStore.IdentityService.API.Extensions
         {
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+        }
+
+        public static void AddValidatorsRegistration(this IServiceCollection services)
+        {
+            services.AddScoped<IValidator<LoginModel>, LoginModelValidator>();
+            services.AddScoped<IValidator<RegisterModel>, RegisterModelValidator>();
         }
     }
 }
