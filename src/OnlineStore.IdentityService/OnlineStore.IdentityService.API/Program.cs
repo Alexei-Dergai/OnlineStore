@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using OnlineStore.IdentityService.BLL.Services;
-using OnlineStore.IdentityService.BLL.Services.Contracts;
+using OnlineStore.IdentityService.API.Extensions;
 using OnlineStore.IdentityService.BLL.Settings;
 using OnlineStore.IdentityService.DAL.Data;
 using System.Text;
@@ -14,8 +13,7 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.SectionName));
 
 // Register services
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+builder.Services.AddServicesRegistration();
 
 //For EF
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
