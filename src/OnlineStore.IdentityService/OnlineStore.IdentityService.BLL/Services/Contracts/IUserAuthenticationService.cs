@@ -4,16 +4,16 @@ namespace OnlineStore.IdentityService.BLL.Services.Contracts
 {
     public interface IUserAuthenticationService
     {
-        Task<AuthenticationResult> LoginAsync(string? userName, string? password);
+        Task<AuthenticationResult> LoginAsync(LoginModel model);
 
-        Task RegisterAsync(string? userName, string? password, string? email);
+        Task RegisterAsync(RegisterModel model);
 
-        Task RegisterAdminAsync(string? userName, string? email, string? password);
+        Task RegisterAdminAsync(RegisterModel model);
 
         Task RevokeAsync(string username);
 
         Task RevokeAllAsync();
 
-        Task<AuthenticationResult> RefreshTokenAsync(string? accessToken, string? refreshToken);
+        Task<AuthenticationResult> RefreshTokenAsync(TokenModel model);
     }
 }

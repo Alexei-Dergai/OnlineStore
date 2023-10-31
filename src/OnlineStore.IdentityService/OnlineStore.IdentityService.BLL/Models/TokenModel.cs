@@ -1,4 +1,4 @@
-﻿namespace OnlineStore.IdentityService.API.Models
+﻿namespace OnlineStore.IdentityService.BLL.Models
 {
     public class TokenModel
     {

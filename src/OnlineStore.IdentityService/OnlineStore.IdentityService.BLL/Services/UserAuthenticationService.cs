@@ -28,12 +28,12 @@ namespace OnlineStore.IdentityService.BLL.Services
             _tokenService = tokenService;
         }
 
-        public async Task<AuthenticationResult> LoginAsync(string? userName, string? password)
+        public async Task<AuthenticationResult> LoginAsync(LoginModel model)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user != null
-                && await _userManager.CheckPasswordAsync(user, password))
+                && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -69,9 +69,9 @@ namespace OnlineStore.IdentityService.BLL.Services
             throw new UnauthorizedAccessException();
         }
 
-        public async Task RegisterAsync(string? userName, string? password, string? email)
+        public async Task RegisterAsync(RegisterModel model)
         {
-            var userExists = await _userManager.FindByNameAsync(userName);
+            var userExists = await _userManager.FindByNameAsync(model.UserName);
 
             if (userExists != null)
             {
@@ -80,12 +80,12 @@ namespace OnlineStore.IdentityService.BLL.Services
 
             ApplicationUser user = new()
             {
-                Email = email,
+                Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = userName
+                UserName = model.UserName
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, model.Password);
             
             if (!result.Succeeded)
             {
@@ -103,9 +103,9 @@ namespace OnlineStore.IdentityService.BLL.Services
             }
         }
 
-        public async Task RegisterAdminAsync(string? userName, string? email, string? password)
+        public async Task RegisterAdminAsync(RegisterModel model)
         {
-            var userExists = await _userManager.FindByNameAsync(userName);
+            var userExists = await _userManager.FindByNameAsync(model.UserName);
 
             if (userExists != null)
             {
@@ -114,12 +114,12 @@ namespace OnlineStore.IdentityService.BLL.Services
 
             ApplicationUser user = new()
             {
-                Email = email,
+                Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = userName
+                UserName = model.UserName
             };
 
-            var result = await _userManager.CreateAsync(user, password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -137,9 +137,9 @@ namespace OnlineStore.IdentityService.BLL.Services
             }
         }
 
-        public async Task<AuthenticationResult> RefreshTokenAsync(string? accessToken, string? refreshToken )
+        public async Task<AuthenticationResult> RefreshTokenAsync(TokenModel model)
         {
-            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
+            var principal = _tokenService.GetPrincipalFromExpiredToken(model.AccessToken);
 
             if (principal == null)
             {
@@ -150,7 +150,7 @@ namespace OnlineStore.IdentityService.BLL.Services
             var user = await _userManager.FindByNameAsync(username);
 
             if (user == null
-                || user.RefreshToken != refreshToken
+                || user.RefreshToken != model.RefreshToken
                 || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
                 throw new Exception("Invalid access token or refresh token");

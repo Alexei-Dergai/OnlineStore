@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.IdentityService.API.Models;
+using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.DAL.Data;
 
@@ -24,7 +25,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                var loginResult = await _userAuthenticationService.LoginAsync(model.UserName, model.Password);
+                var loginResult = await _userAuthenticationService.LoginAsync(model);
 
                 return Ok(loginResult);
             }
@@ -40,7 +41,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                await _userAuthenticationService.RegisterAsync(model.UserName, model.Email, model.Password);
+                await _userAuthenticationService.RegisterAsync(model);
 
                 return Ok(new Response
                 {
@@ -60,7 +61,7 @@ namespace OnlineStore.IdentityService.API.Controllers
         {
             try
             {
-                await _userAuthenticationService.RegisterAdminAsync(model.UserName, model.Email, model.Password);
+                await _userAuthenticationService.RegisterAdminAsync(model);
 
                 return Ok(new Response
                 {
@@ -76,15 +77,15 @@ namespace OnlineStore.IdentityService.API.Controllers
 
         [HttpPost]
         [Route("refresh-token")]
-        public async Task<IActionResult> RefreshToken(TokenModel tokenModel)
+        public async Task<IActionResult> RefreshToken(TokenModel model)
         {
-            if (tokenModel == null)
+            if (model == null)
             {
                 return BadRequest("Invalid client request");
             }
             try
             {
-                var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(tokenModel.AccessToken, tokenModel.RefreshToken);
+                var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(model);
 
                 return Ok(refreshTokenResult);
             }
