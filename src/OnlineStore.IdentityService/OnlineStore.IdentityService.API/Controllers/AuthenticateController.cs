@@ -4,6 +4,7 @@ using OnlineStore.IdentityService.API.Models;
 using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.DAL.Data;
+using System.Net;
 
 namespace OnlineStore.IdentityService.API.Controllers
 {
@@ -23,56 +24,35 @@ namespace OnlineStore.IdentityService.API.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            try
-            {
-                var loginResult = await _userAuthenticationService.LoginAsync(model);
+            var loginResult = await _userAuthenticationService.LoginAsync(model);
 
-                return Ok(loginResult);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                return Unauthorized();
-            }
+            return Ok(loginResult);
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            try
-            {
-                await _userAuthenticationService.RegisterAsync(model);
+            await _userAuthenticationService.RegisterAsync(model);
 
-                return Ok(new Response
-                {
-                    Status = "Success",
-                    Message = "User created successfully!"
-                });
-            }
-            catch (Exception ex)
+            return Ok(new ApiResponse
             {
-                return BadRequest(ex.Message);
-            }
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "User created successfully!"
+            });
         }
 
         [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
         {
-            try
-            {
-                await _userAuthenticationService.RegisterAdminAsync(model);
+            await _userAuthenticationService.RegisterAdminAsync(model);
 
-                return Ok(new Response
-                {
-                    Status = "Success",
-                    Message = "Admin created successfully!"
-                });
-            }
-            catch (Exception ex)
+            return Ok(new ApiResponse
             {
-                return BadRequest(ex.Message);
-            }
+                StatusCode = (int)HttpStatusCode.OK,
+                Message = "Admin created successfully!"
+            });
         }   
 
         [HttpPost]
@@ -83,16 +63,10 @@ namespace OnlineStore.IdentityService.API.Controllers
             {
                 return BadRequest("Invalid client request");
             }
-            try
-            {
-                var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(model);
 
-                return Ok(refreshTokenResult);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(model);
+
+            return Ok(refreshTokenResult);
         }
 
         [Authorize]
@@ -100,16 +74,9 @@ namespace OnlineStore.IdentityService.API.Controllers
         [Route("revoke/{username}")]
         public async Task<IActionResult> Revoke(string username)
         {
-            try
-            {
-                await _userAuthenticationService.RevokeAsync(username);
+            await _userAuthenticationService.RevokeAsync(username);
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return NoContent();
         }
 
         [Authorize(Roles = UserRoles.Admin)]

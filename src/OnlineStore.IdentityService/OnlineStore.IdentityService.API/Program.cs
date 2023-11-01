@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnlineStore.IdentityService.API.Extensions;
+using OnlineStore.IdentityService.API.Middlewares;
 using OnlineStore.IdentityService.BLL.Settings;
 using OnlineStore.IdentityService.DAL.Data;
 using System.Text;
@@ -15,6 +16,8 @@ builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.Sec
 // Register services
 builder.Services.AddServicesRegistration();
 builder.Services.AddValidatorsRegistration();
+
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 //For EF
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
@@ -79,6 +82,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

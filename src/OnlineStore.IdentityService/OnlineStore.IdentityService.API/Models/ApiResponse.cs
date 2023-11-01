@@ -1,8 +1,9 @@
 ﻿namespace OnlineStore.IdentityService.API.Models
 {
-    public class Response
+    public class ApiResponse
     {
-        public string? Status { get; set; }
+        public int StatusCode { get; set; }
+
         public string? Message { get; set;}
     }
 }
