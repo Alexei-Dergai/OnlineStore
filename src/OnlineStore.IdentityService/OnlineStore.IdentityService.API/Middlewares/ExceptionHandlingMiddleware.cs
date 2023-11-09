@@ -1,4 +1,5 @@
-﻿using OnlineStore.IdentityService.API.Models;
+﻿using FluentValidation;
+using OnlineStore.IdentityService.API.Models;
 using System.Net;
 using System.Text.Json;
 
@@ -25,14 +26,21 @@ namespace OnlineStore.IdentityService.API.Middlewares
 
                 var statusCode = ex switch
                 {
+                    ValidationException => HttpStatusCode.BadRequest,
                     UnauthorizedAccessException => HttpStatusCode.Unauthorized,
                     _ => HttpStatusCode.InternalServerError
+                };
+
+                var message = ex switch
+                {
+                    ValidationException => GetValidationExceptionMessage((ValidationException)ex),
+                    _ => ex.Message
                 };
 
                 var apiResponse = new ApiResponse
                 {
                     StatusCode = (int)statusCode,
-                    Message = ex.Message
+                    Message = message
                 };
 
                 context.Response.StatusCode = (int)statusCode;
@@ -40,6 +48,14 @@ namespace OnlineStore.IdentityService.API.Middlewares
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(apiResponse));
             }
+        }
+
+        private string GetValidationExceptionMessage(ValidationException ex)
+        {
+            var errors = ex.Errors.Select(x => x.ErrorMessage);
+            var message = string.Join(Environment.NewLine, errors);
+
+            return message;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.BLL.Services;
 using FluentValidation;
-using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Validators;
 using OnlineStore.IdentityService.DAL.Seeder.Contracts;
 using OnlineStore.IdentityService.DAL.Seeder;
@@ -19,8 +18,7 @@ namespace OnlineStore.IdentityService.API.Extensions
 
         public static void AddValidatorsRegistration(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<LoginModel>, LoginModelValidator>();
-            services.AddScoped<IValidator<RegisterModel>, RegisterModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<LoginModelValidator>();
         }
     }
 }

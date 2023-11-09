@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.BLL.Settings;
+using OnlineStore.IdentityService.BLL.Validators;
 using OnlineStore.IdentityService.DAL.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -31,6 +33,9 @@ namespace OnlineStore.IdentityService.BLL.Services
 
         public async Task<AuthenticationResult> LoginAsync(LoginModel model)
         {
+            var validator = new LoginModelValidator();
+            await validator.ValidateAndThrowAsync(model);
+
             var user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user != null
@@ -70,6 +75,9 @@ namespace OnlineStore.IdentityService.BLL.Services
 
         public async Task RegisterAsync(RegisterModel model)
         {
+            var validator = new RegisterModelValidator();
+            await validator.ValidateAndThrowAsync(model);
+
             var userExists = await _userManager.FindByNameAsync(model.UserName);
 
             if (userExists != null)
@@ -101,6 +109,9 @@ namespace OnlineStore.IdentityService.BLL.Services
 
         public async Task RegisterAdminAsync(RegisterModel model)
         {
+            var validator = new RegisterModelValidator();
+            await validator.ValidateAndThrowAsync(model);
+
             var userExists = await _userManager.FindByNameAsync(model.UserName);
 
             if (userExists != null)
@@ -132,10 +143,8 @@ namespace OnlineStore.IdentityService.BLL.Services
 
         public async Task<AuthenticationResult> RefreshTokenAsync(TokenModel model)
         {
-            if (model == null)
-            {
-                throw new Exception("Invalid client request");
-            }
+            var validator = new TokenModelValidator();
+            await validator.ValidateAndThrowAsync(model);
 
             var principal = _tokenService.GetPrincipalFromExpiredToken(model.AccessToken);
 
