@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using OnlineStore.IdentityService.API.Models;
+using OnlineStore.IdentityService.BLL.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -27,6 +28,7 @@ namespace OnlineStore.IdentityService.API.Middlewares
                 var statusCode = ex switch
                 {
                     ValidationException => HttpStatusCode.BadRequest,
+                    EntityAlreadyExistsException => HttpStatusCode.Conflict,
                     UnauthorizedAccessException => HttpStatusCode.Unauthorized,
                     _ => HttpStatusCode.InternalServerError
                 };

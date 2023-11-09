@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using OnlineStore.IdentityService.BLL.Exceptions;
 using OnlineStore.IdentityService.BLL.Models;
 using OnlineStore.IdentityService.BLL.Services.Contracts;
 using OnlineStore.IdentityService.BLL.Settings;
@@ -82,7 +83,7 @@ namespace OnlineStore.IdentityService.BLL.Services
 
             if (userExists != null)
             {
-                throw new Exception("User already exists!");
+                throw new EntityAlreadyExistsException("User already exists!");
             }
 
             ApplicationUser user = new()
@@ -116,7 +117,7 @@ namespace OnlineStore.IdentityService.BLL.Services
 
             if (userExists != null)
             {
-                throw new Exception("Admin already exists!");
+                throw new EntityAlreadyExistsException("Admin already exists!");
             }
 
             ApplicationUser user = new()
