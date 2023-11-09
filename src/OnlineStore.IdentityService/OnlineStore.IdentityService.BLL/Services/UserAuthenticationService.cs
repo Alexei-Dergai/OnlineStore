@@ -132,6 +132,11 @@ namespace OnlineStore.IdentityService.BLL.Services
 
         public async Task<AuthenticationResult> RefreshTokenAsync(TokenModel model)
         {
+            if (model == null)
+            {
+                throw new Exception("Invalid client request");
+            }
+
             var principal = _tokenService.GetPrincipalFromExpiredToken(model.AccessToken);
 
             if (principal == null)

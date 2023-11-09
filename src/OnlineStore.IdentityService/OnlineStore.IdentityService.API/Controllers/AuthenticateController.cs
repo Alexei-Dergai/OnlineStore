@@ -59,11 +59,6 @@ namespace OnlineStore.IdentityService.API.Controllers
         [Route("refresh-token")]
         public async Task<IActionResult> RefreshToken(TokenModel model)
         {
-            if (model == null)
-            {
-                return BadRequest("Invalid client request");
-            }
-
             var refreshTokenResult = await _userAuthenticationService.RefreshTokenAsync(model);
 
             return Ok(refreshTokenResult);
