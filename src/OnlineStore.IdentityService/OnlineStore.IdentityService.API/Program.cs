@@ -16,47 +16,10 @@ builder.Services.Configure<JWTSettings>(configuration.GetSection(JWTSettings.Sec
 // Register services
 builder.Services.AddServicesRegistration();
 builder.Services.AddValidatorsRegistration();
+builder.Services.AddDbContextRegistration(configuration);
+builder.Services.AddJwtAuthentication(configuration);
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
-
-//For EF
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
-
-//For Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-//Adding Authetication
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-
-//Adding JWT Bearer
-.AddJwtBearer(options =>
-{
-    var jwtSettings = new JWTSettings();
-
-    configuration.Bind(JWTSettings.SectionName, jwtSettings);
-
-    options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
-    options.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ClockSkew = TimeSpan.Zero,
-
-        ValidAudience = jwtSettings.ValidAudience,
-        ValidIssuer = jwtSettings.ValidIssuer,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret!)
-    )};
-});
 
 builder.Services.AddRouting(options => 
 {
