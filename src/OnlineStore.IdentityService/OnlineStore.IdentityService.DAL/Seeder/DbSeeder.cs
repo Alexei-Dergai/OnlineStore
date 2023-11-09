@@ -24,35 +24,24 @@ namespace OnlineStore.IdentityService.DAL.Seeder
         {
             if (!_db.Roles.Any())
             {
-                // Can't use 'await' there since it will be used in non async code (Program.cs)
-                _ = Task.Run(() => _roleManager.CreateAsync(new IdentityRole(UserRoles.User))).Result;
-                _ = Task.Run(() => _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin))).Result;
+                var roles = DataForSeeding.GetRoles();
+
+                foreach (var role in roles)
+                {
+                    // Can't use 'await' there since it will be used in non async code (Program.cs)
+                    _ = Task.Run(() => _roleManager.CreateAsync(role)).Result;
+                }
             }
 
             if (!_db.Users.Any())
             {
-                var admin = new ApplicationUser
-                {
-                    UserName = "admin",
-                    Email = "admin@gmail.com",
-                    EmailConfirmed = true,
-                    PhoneNumber = "+375295071292",
-                    PhoneNumberConfirmed = true
-                };
+                var users = DataForSeeding.GetUsers();
 
-                var user = new ApplicationUser
+                foreach (var user in users)
                 {
-                    UserName = "user",
-                    Email = "user@gmail.com",
-                    EmailConfirmed = true,
-                    PhoneNumber = "+375292643852",
-                    PhoneNumberConfirmed = true
-                };
-
-                _ = Task.Run(() => _userManager.CreateAsync(admin, "Admin123!")).Result;
-                _ = Task.Run(() => _userManager.CreateAsync(user, "User987!")).Result;
-                _ = Task.Run(() => _userManager.AddToRoleAsync(admin, UserRoles.Admin)).Result;
-                _ = Task.Run(() => _userManager.AddToRoleAsync(user, UserRoles.User)).Result;
+                    _ = Task.Run(() => _userManager.CreateAsync(user, user.Password)).Result;
+                    _ = Task.Run(() => _userManager.AddToRoleAsync(user, user.Role)).Result;
+                }
             }
         }
     }
