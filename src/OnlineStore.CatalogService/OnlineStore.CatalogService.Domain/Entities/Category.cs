@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace OnlineStore.CatalogService.Domain.Entities
+﻿namespace OnlineStore.CatalogService.Domain.Entities
 {
     public class Category : BaseEntity
     {

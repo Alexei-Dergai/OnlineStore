@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using OnlineStore.CatalogService.Domain.Entities;
+﻿using OnlineStore.CatalogService.Domain.Entities;
 using OnlineStore.CatalogService.Application.Responses;
 using MediatR;
 
@@ -16,7 +14,6 @@ namespace OnlineStore.CatalogService.Application.Commands
 
         public string? ImageFile { get; set; }
 
-        [BsonRepresentation(BsonType.Decimal128)]
         public decimal Price { get; set; }
 
         public Category? Category { get; set; }
