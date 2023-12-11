@@ -1,8 +1,6 @@
-﻿using HealthChecks.UI.Client;
-using MediatR;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using MediatR;
 using Microsoft.OpenApi.Models;
+using OnlineStore.CatalogService.API.Extensions;
 using OnlineStore.CatalogService.Application.Handlers;
 using OnlineStore.CatalogService.Domain.Repositories;
 using OnlineStore.CatalogService.Infrastructure.DataAccess;
@@ -22,13 +20,13 @@ namespace OnlineStore.CatalogService.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddHealthChecks()
-                    .AddMongoDb(_configuration["DatabaseSettings:ConnectionString"]!, "Catalog Mongo Db Health Check",
-                                HealthStatus.Degraded);
+            var builder = WebApplication.CreateBuilder();
+
+            builder.Services.AddHealthChecksRegistration(_configuration);
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
-
+            
+            services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(CreateProductHandler).GetTypeInfo().Assembly);
             services.AddScoped<ICatalogContext, CatalogContext>();
@@ -50,16 +48,7 @@ namespace OnlineStore.CatalogService.API
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
-                {
-                    Predicate = _ => true,
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
-
-            });
+            app.AddEndPointsRegistration();
         }
     }
 }
