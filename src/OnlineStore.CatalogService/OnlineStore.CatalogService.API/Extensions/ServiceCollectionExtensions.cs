@@ -23,7 +23,6 @@ namespace OnlineStore.CatalogService.API.Extensions
                     Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
-
             });
         }
     }

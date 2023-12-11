@@ -23,9 +23,14 @@ namespace OnlineStore.CatalogService.API
             var builder = WebApplication.CreateBuilder();
 
             builder.Services.AddHealthChecksRegistration(_configuration);
+            builder.Services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
-            
+
+            services.AddHealthChecks();
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(CreateProductHandler).GetTypeInfo().Assembly);

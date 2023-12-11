@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineStore.CatalogService.Application.Commands;
 using OnlineStore.CatalogService.Application.Queries;
 using OnlineStore.CatalogService.Application.Responses;
+using OnlineStore.CatalogService.Domain.Specs;
 using System.Net;
 
 namespace OnlineStore.CatalogService.API.Controllers
@@ -17,7 +18,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{id}", Name = "GetProductById")]
+        [Route("[action]/{id}")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ProductResponse>> GetProductById(string id)
@@ -28,7 +29,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{productName}", Name = "GetProductByProductName")]
+        [Route("[action]/{productName}")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string productName)
         {
@@ -41,16 +42,16 @@ namespace OnlineStore.CatalogService.API.Controllers
         [HttpGet]
         [Route("GetAllProducts")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts()
+        public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
         {
-            var query = new GetAllProductsQuery();
+            var query = new GetAllProductsQuery(catalogSpecParams);
             var result = await _mediator.Send(query);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetAllBrands")]
+        [Route("GetAllCategories")]
         [ProducesResponseType(typeof(IList<CategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<CategoryResponse>>> GetAllCategories()
         {
@@ -61,7 +62,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllTypes")]
+        [Route("GetAllApplicationTypes")]
         [ProducesResponseType(typeof(IList<ApplicationTypeResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ApplicationTypeResponse>>> GetAllApplicationTypes()
         {
@@ -72,11 +73,11 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{brand}", Name = "GetProductsByBrandName")]
+        [Route("[action]/{category}")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByCategoryName(string brand)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByCategoryName(string category)
         {
-            var query = new GetProductByCategoryQuery(brand);
+            var query = new GetProductByCategoryQuery(category);
             var result = await _mediator.Send(query);
 
             return Ok(result);
@@ -102,7 +103,7 @@ namespace OnlineStore.CatalogService.API.Controllers
             return Ok(result);
         }
         [HttpDelete]
-        [Route("{id}", Name = "DeleteProduct")]
+        [Route("{id}")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProduct(string id)
         {

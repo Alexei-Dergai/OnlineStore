@@ -3,10 +3,11 @@ using OnlineStore.CatalogService.Application.Mappers;
 using OnlineStore.CatalogService.Application.Queries;
 using OnlineStore.CatalogService.Application.Responses;
 using OnlineStore.CatalogService.Domain.Repositories;
+using OnlineStore.CatalogService.Domain.Specs;
 
 namespace OnlineStore.CatalogService.Application.Handlers
 {
-    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IList<ProductResponse>>
+    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, Pagination<ProductResponse>>
     {
         private readonly IProductRepository _productRepository;
 
@@ -15,10 +16,10 @@ namespace OnlineStore.CatalogService.Application.Handlers
             _productRepository = productRepository; 
         }
 
-        public async Task<IList<ProductResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
+        public async Task<Pagination<ProductResponse>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var productList = await _productRepository.GetAllProducts();
-            var productResponseList = ProductMapper.Mapper.Map<IList<ProductResponse>>(productList);
+            var productList = await _productRepository.GetAllProducts(request.CatalogSpecParams);
+            var productResponseList = ProductMapper.Mapper.Map<Pagination<ProductResponse>>(productList);
 
             return productResponseList;
         }
