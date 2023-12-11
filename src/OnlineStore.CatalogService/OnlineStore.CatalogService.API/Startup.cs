@@ -13,19 +13,18 @@ namespace OnlineStore.CatalogService.API
 {
     public class Startup
     {
-        private IConfiguration Configuration;
+        private readonly IConfiguration _configuration;
+
         public Startup(IConfiguration configuration)
         {
-
-            Configuration = configuration;
-
+            _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddHealthChecks()
-                    .AddMongoDb(Configuration["DatabaseSettings:ConnectionString"]!, "Catalog Mongo Db Health Check",
+                    .AddMongoDb(_configuration["DatabaseSettings:ConnectionString"]!, "Catalog Mongo Db Health Check",
                                 HealthStatus.Degraded);
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
