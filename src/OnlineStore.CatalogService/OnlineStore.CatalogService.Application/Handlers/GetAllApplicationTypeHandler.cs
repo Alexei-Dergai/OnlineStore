@@ -1,13 +1,9 @@
 ﻿using MediatR;
+using OnlineStore.CatalogService.Application.Exceptions;
 using OnlineStore.CatalogService.Application.Mappers;
 using OnlineStore.CatalogService.Application.Queries;
 using OnlineStore.CatalogService.Application.Responses;
 using OnlineStore.CatalogService.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineStore.CatalogService.Application.Handlers
 {
@@ -22,6 +18,11 @@ namespace OnlineStore.CatalogService.Application.Handlers
 
         public async Task<IList<ApplicationTypeResponse>> Handle(GetAllApplicationTypeQuery request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new NotFoundException("ApplicationTypes not found");
+            }
+
             var applicationTypeList = await _applicationTypeRepository.GetAllApplicationTypes();
             var applicationTypeResponseList = ProductMapper.Mapper.Map<IList<ApplicationTypeResponse>>(applicationTypeList);
             

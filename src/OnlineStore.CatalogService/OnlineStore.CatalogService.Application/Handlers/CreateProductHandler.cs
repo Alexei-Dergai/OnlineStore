@@ -19,12 +19,6 @@ namespace OnlineStore.CatalogService.Application.Handlers
         public async Task<ProductResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var productEntity = ProductMapper.Mapper.Map<Product>(request);
-            
-            if (productEntity == null)
-            {
-                throw new ApplicationException("There is an issue with mapper while creating new product");
-            }
-
             var newProduct = await _productRepository.CreateProduct(productEntity);
             var productResponse = ProductMapper.Mapper.Map<ProductResponse>(newProduct);
 

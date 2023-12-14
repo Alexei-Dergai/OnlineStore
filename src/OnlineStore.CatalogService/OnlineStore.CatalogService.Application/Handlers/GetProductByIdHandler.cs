@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineStore.CatalogService.Application.Exceptions;
 using OnlineStore.CatalogService.Application.Mappers;
 using OnlineStore.CatalogService.Application.Queries;
 using OnlineStore.CatalogService.Application.Responses;
@@ -17,6 +18,11 @@ namespace OnlineStore.CatalogService.Application.Handlers
 
         public async Task<ProductResponse> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
+            if(request.Id == null)
+            {
+                throw new NotFoundException("Product not found");
+            }
+
             var product = await _productRepository.GetProduct(request.Id!);
             var productResponse = ProductMapper.Mapper.Map<ProductResponse>(product);
 

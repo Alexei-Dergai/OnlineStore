@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineStore.CatalogService.Application.Exceptions;
 using OnlineStore.CatalogService.Application.Mappers;
 using OnlineStore.CatalogService.Application.Queries;
 using OnlineStore.CatalogService.Application.Responses;
@@ -17,6 +18,11 @@ namespace OnlineStore.CatalogService.Application.Handlers
 
         public async Task<IList<CategoryResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
+            if (_categoryRepository.GetAllCategories == null)
+            {
+                throw new NotFoundException("Categories not found");
+            }
+
             var categoryList = await _categoryRepository.GetAllCategories();
             var categoryResponseList = ProductMapper.Mapper.Map<IList<Category>,
                                                                 IList<CategoryResponse>>(categoryList.ToList());

@@ -27,6 +27,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
                 Price = request.Price,
                 Summary = request.Summary
             });
+
             return productEntity;
         }
     }

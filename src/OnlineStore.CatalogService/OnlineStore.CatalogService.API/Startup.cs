@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.OpenApi.Models;
 using OnlineStore.CatalogService.API.Extensions;
+using OnlineStore.CatalogService.API.Middlewares;
 using OnlineStore.CatalogService.Application.Handlers;
 using OnlineStore.CatalogService.Domain.Repositories;
 using OnlineStore.CatalogService.Infrastructure.DataAccess;
@@ -20,17 +21,14 @@ namespace OnlineStore.CatalogService.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = WebApplication.CreateBuilder();
-
-            builder.Services.AddHealthChecksRegistration(_configuration);
-            builder.Services.AddRouting(options =>
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
+            services.AddRouting(options =>
             {
                 options.LowercaseUrls = true;
             });
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
-
-            services.AddHealthChecks();
+            services.AddTransient<ExceptionHandlingMiddleware>();
+            services.AddHealthChecksRegistration(_configuration);
             services.AddControllers();
             services.AddApiVersioning();
             services.AddAutoMapper(typeof(Startup));
@@ -54,6 +52,7 @@ namespace OnlineStore.CatalogService.API
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthorization();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.AddEndPointsRegistration();
         }
     }
