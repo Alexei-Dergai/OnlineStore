@@ -18,7 +18,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{id}")]
+        [Route("products/{id}")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ProductResponse>> GetProductById(string id)
@@ -29,62 +29,57 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{productName}")]
+        [Route("products")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string productName)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string product)
         {
-            var query = new GetProductByNameQuery(productName);
+            var query = new GetProductByNameQuery(product);
             var result = await _mediator.Send(query);
-
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetAllProducts")]
+        [Route("all-products")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
         {
             var query = new GetAllProductsQuery(catalogSpecParams);
             var result = await _mediator.Send(query);
-
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetAllCategories")]
+        [Route("categories")]
         [ProducesResponseType(typeof(IList<CategoryResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<CategoryResponse>>> GetAllCategories()
         {
             var query = new GetAllCategoriesQuery();
             var result = await _mediator.Send(query);
-
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetAllApplicationTypes")]
+        [Route("application-types")]
         [ProducesResponseType(typeof(IList<ApplicationTypeResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ApplicationTypeResponse>>> GetAllApplicationTypes()
         {
             var query = new GetAllApplicationTypeQuery();
             var result = await _mediator.Send(query);
-
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("[action]/{category}")]
+        [Route("product/{category}")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByCategoryName(string category)
+        public async Task<ActionResult<IList<ProductResponse>>> GetProductsByCategoryName(string categoryName)
         {
-            var query = new GetProductByCategoryQuery(category);
+            var query = new GetProductByCategoryQuery(categoryName);
             var result = await _mediator.Send(query);
-
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("CreateProduct")]
+        [Route("product")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProductResponse>> CreateProduct([FromBody] CreateProductCommand productCommand)
         {
@@ -94,7 +89,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateProduct")]
+        [Route("product")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand productCommand)
         {
@@ -103,7 +98,7 @@ namespace OnlineStore.CatalogService.API.Controllers
             return Ok(result);
         }
         [HttpDelete]
-        [Route("{id}")]
+        [Route("product")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProduct(string id)
         {

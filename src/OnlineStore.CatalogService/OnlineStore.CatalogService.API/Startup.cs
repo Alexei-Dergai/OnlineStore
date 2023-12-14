@@ -32,6 +32,7 @@ namespace OnlineStore.CatalogService.API
 
             services.AddHealthChecks();
             services.AddControllers();
+            services.AddApiVersioning();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(CreateProductHandler).GetTypeInfo().Assembly);
             services.AddScoped<ICatalogContext, CatalogContext>();
