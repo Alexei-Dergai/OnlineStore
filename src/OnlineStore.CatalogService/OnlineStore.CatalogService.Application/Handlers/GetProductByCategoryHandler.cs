@@ -9,6 +9,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
     public class GetProductByCategoryHandler : IRequestHandler<GetProductByCategoryQuery, IList<ProductResponse>>
     {
         private readonly IProductRepository _productRepository;
+
         public GetProductByCategoryHandler(IProductRepository productRepository)
         {
             _productRepository = productRepository;
