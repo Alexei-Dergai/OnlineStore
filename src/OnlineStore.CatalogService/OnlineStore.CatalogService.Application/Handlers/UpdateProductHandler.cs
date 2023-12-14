@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using MongoDB.Driver.Core.Operations;
 using OnlineStore.CatalogService.Application.Commands;
+using OnlineStore.CatalogService.Application.Mappers;
 using OnlineStore.CatalogService.Domain.Entities;
 using OnlineStore.CatalogService.Domain.Repositories;
 
@@ -16,19 +18,9 @@ namespace OnlineStore.CatalogService.Application.Handlers
 
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var productEntity = await _productRepository.UpdateProduct(new Product
-            {
-                Id = request.Id,
-                Name = request.Name,
-                ApplicationType = request.ApplicationType,
-                Category = request.Category,
-                Description = request.Description,
-                ImageFile = request.ImageFile,
-                Price = request.Price,
-                Summary = request.Summary
-            });
-
-            return productEntity;
+            var productEntity = ProductMapper.Mapper.Map<Product>(request);
+            var updateProduct = await _productRepository.UpdateProduct(productEntity);
+            return updateProduct;
         }
     }
 }
