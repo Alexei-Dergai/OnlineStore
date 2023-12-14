@@ -5,19 +5,19 @@ namespace OnlineStore.CatalogService.Domain.Repositories
 {
     public interface IProductRepository
     {
-        Task<Pagination<Product>> GetAllProducts(CatalogSpecParams catalogSpecParams);
+        Task<Pagination<Product>> GetAllProductsAsync(CatalogSpecParams catalogSpecParams);
 
-        Task<Product> GetProduct(string id);
+        Task<Product> GetProductAsync(string id);
 
-        Task<IEnumerable<Product>> GetProductByName(string name);
+        Task<IEnumerable<Product>> GetProductByNameAsync(string name);
 
-        Task<IEnumerable<Product>> GetProductByCategory(string name);
+        Task<IEnumerable<Product>> GetProductByCategoryAsync(string name);
 
-        Task<Product> CreateProduct(Product product);
+        Task<Product> CreateProductAsync(Product product);
 
-        Task<bool> UpdateProduct(Product product);
+        Task<bool> UpdateProductAsync(Product product);
 
-        Task<bool> DeleteProduct(string id);
+        Task<bool> DeleteProductAsync(string id);
 
     }
 }

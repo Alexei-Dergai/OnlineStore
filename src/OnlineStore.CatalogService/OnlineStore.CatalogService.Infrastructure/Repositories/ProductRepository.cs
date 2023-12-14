@@ -16,14 +16,14 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Product> CreateProduct(Product product)
+        public async Task<Product> CreateProductAsync(Product product)
         {
             await _context.Products.InsertOneAsync(product);
 
             return product;
         }
 
-        public async Task<bool> DeleteProduct(string id)
+        public async Task<bool> DeleteProductAsync(string id)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Id, id);
 
@@ -32,17 +32,17 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
-        public async Task<IEnumerable<ApplicationType>> GetAllApplicationTypes()
+        public async Task<IEnumerable<ApplicationType>> GetAllApplicationTypesAsync()
         {
             return await _context.ApplicationTypes.Find(x => true).ToListAsync();
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories.Find(x => true).ToListAsync();
         }
 
-        public async Task<Pagination<Product>> GetAllProducts(CatalogSpecParams catalogSpecParams)
+        public async Task<Pagination<Product>> GetAllProductsAsync(CatalogSpecParams catalogSpecParams)
         {
             var builder = Builders<Product>.Filter;
             var filter = builder.Empty;
@@ -124,26 +124,26 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
             }
         }
 
-        public async Task<Product> GetProduct(string id)
+        public async Task<Product> GetProductAsync(string id)
         {
             return await _context.Products.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductByCategory(string name)
+        public async Task<IEnumerable<Product>> GetProductByCategoryAsync(string name)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Category!.Name, name);
 
             return await _context.Products.Find(filter).ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetProductByName(string name)
+        public async Task<IEnumerable<Product>> GetProductByNameAsync(string name)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Name, name);
 
             return await _context.Products.Find(filter).ToListAsync();
         }
 
-        public async Task<bool> UpdateProduct(Product product)
+        public async Task<bool> UpdateProductAsync(Product product)
         {
             var updateResult = await _context.Products.ReplaceOneAsync(x => x.Id == product.Id, product);
 

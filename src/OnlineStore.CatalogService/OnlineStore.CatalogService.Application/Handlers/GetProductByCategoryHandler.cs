@@ -23,7 +23,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
                 throw new NotFoundException("Products not found");
             }
 
-            var productList = await _productRepository.GetProductByCategory(request.CategoryName!);
+            var productList = await _productRepository.GetProductByCategoryAsync(request.CategoryName!);
             var productListResponse = ProductMapper.Mapper.Map<IList<ProductResponse>>(productList);
 
             return productListResponse;

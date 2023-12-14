@@ -23,7 +23,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
                 throw new NotFoundException("ApplicationTypes not found");
             }
 
-            var applicationTypeList = await _applicationTypeRepository.GetAllApplicationTypes();
+            var applicationTypeList = await _applicationTypeRepository.GetAllApplicationTypesAsync();
             var applicationTypeResponseList = ProductMapper.Mapper.Map<IList<ApplicationTypeResponse>>(applicationTypeList);
             
             return applicationTypeResponseList;

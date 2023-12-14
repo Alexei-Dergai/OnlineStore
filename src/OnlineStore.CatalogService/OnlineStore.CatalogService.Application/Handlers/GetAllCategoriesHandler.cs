@@ -18,12 +18,12 @@ namespace OnlineStore.CatalogService.Application.Handlers
 
         public async Task<IList<CategoryResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            if (_categoryRepository.GetAllCategories == null)
+            if (_categoryRepository.GetAllCategoriesAsync == null)
             {
                 throw new NotFoundException("Categories not found");
             }
 
-            var categoryList = await _categoryRepository.GetAllCategories();
+            var categoryList = await _categoryRepository.GetAllCategoriesAsync();
             var categoryResponseList = ProductMapper.Mapper.Map<IList<Category>,
                                                                 IList<CategoryResponse>>(categoryList.ToList());
 

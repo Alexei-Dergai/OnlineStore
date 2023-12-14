@@ -21,7 +21,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
                 throw new NotFoundException("Product not found");
             }
 
-            return await _productRepository.DeleteProduct(request.Id);
+            return await _productRepository.DeleteProductAsync(request.Id);
         }
     }
 }

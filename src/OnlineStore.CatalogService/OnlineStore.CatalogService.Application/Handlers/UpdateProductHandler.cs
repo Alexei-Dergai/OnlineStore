@@ -19,7 +19,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
         public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var productEntity = ProductMapper.Mapper.Map<Product>(request);
-            var updateProduct = await _productRepository.UpdateProduct(productEntity);
+            var updateProduct = await _productRepository.UpdateProductAsync(productEntity);
             return updateProduct;
         }
     }

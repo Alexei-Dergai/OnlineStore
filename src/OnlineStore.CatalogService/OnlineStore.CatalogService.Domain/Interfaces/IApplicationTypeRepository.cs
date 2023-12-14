@@ -4,6 +4,6 @@ namespace OnlineStore.CatalogService.Domain.Repositories
 {
     public interface IApplicationTypeRepository
     {
-        Task<IEnumerable<ApplicationType>> GetAllApplicationTypes();
+        Task<IEnumerable<ApplicationType>> GetAllApplicationTypesAsync();
     }
 }

@@ -19,7 +19,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
         public async Task<ProductResponse> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var productEntity = ProductMapper.Mapper.Map<Product>(request);
-            var newProduct = await _productRepository.CreateProduct(productEntity);
+            var newProduct = await _productRepository.CreateProductAsync(productEntity);
             var productResponse = ProductMapper.Mapper.Map<ProductResponse>(newProduct);
 
             return productResponse;
