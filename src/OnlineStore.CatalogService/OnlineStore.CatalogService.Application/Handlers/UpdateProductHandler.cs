@@ -20,6 +20,7 @@ namespace OnlineStore.CatalogService.Application.Handlers
         {
             var productEntity = ProductMapper.Mapper.Map<Product>(request);
             var updateProduct = await _productRepository.UpdateProductAsync(productEntity);
+
             return updateProduct;
         }
     }

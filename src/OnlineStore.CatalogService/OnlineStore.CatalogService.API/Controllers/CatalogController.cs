@@ -25,6 +25,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetProductByIdQuery(id);
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -35,6 +36,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetProductByNameQuery(product);
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -45,6 +47,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetAllProductsQuery(catalogSpecParams);
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -55,6 +58,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetAllCategoriesQuery();
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -65,6 +69,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetAllApplicationTypeQuery();
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -75,6 +80,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new GetProductByCategoryQuery(categoryName);
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
 
@@ -84,6 +90,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         public async Task<ActionResult<ProductResponse>> CreateProduct([FromBody] CreateProductCommand productCommand)
         {
             var result = await _mediator.Send(productCommand);
+
             return Ok(result);
         }
 
@@ -93,6 +100,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand productCommand)
         {
             var result = await _mediator.Send(productCommand);
+
             return Ok(result);
         }
         [HttpDelete]
@@ -102,6 +110,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         {
             var query = new DeleteProductByIdQuery(id);
             var result = await _mediator.Send(query);
+
             return Ok(result);
         }
     }   

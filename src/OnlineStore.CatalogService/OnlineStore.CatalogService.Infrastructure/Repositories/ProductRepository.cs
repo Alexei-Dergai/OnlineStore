@@ -67,6 +67,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
 
                 filter &= applicationTypeFilter;
             }
+
             if (!string.IsNullOrEmpty(catalogSpecParams.Sort))
             {
                 return new Pagination<Product>
@@ -78,6 +79,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                         true) //TODO: Need to check while applying with UI
                 };
             }
+
             return new Pagination<Product>
             {
                 PageSize = catalogSpecParams.PageSize,
