@@ -12,7 +12,7 @@
         }
         public string? CategoryId { get; set; }
         public string? ApplicationTypeId { get; set; }
-        public string? Sort { get; set; }
+        public SortOrder? Sort { get; set; }
         public string? Search { get; set; }
     }
 }

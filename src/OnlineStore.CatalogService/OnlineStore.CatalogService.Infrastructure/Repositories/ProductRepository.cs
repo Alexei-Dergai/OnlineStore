@@ -68,7 +68,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                 filter &= applicationTypeFilter;
             }
 
-            if (!string.IsNullOrEmpty(catalogSpecParams.Sort))
+            if (catalogSpecParams.Sort.HasValue)
             {
                 return new Pagination<Product>
                 {
@@ -99,7 +99,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
         {
             switch (catalogSpecParams.Sort)
             {
-                case "priceAsc":
+                case SortOrder.Asc:
                     return await _context
                         .Products
                         .Find(filter)
@@ -107,7 +107,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                         .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
                         .Limit(catalogSpecParams.PageSize)
                         .ToListAsync();
-                case "priceDesc":
+                case SortOrder.Desc:
                     return await _context
                         .Products
                         .Find(filter)

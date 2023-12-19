@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using OnlineStore.CatalogService.Application.Settings;
 using OnlineStore.CatalogService.Domain.Entities;
 
 namespace OnlineStore.CatalogService.Infrastructure.DataAccess
