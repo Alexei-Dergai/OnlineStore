@@ -18,10 +18,7 @@ namespace OnlineStore.CatalogService.Infrastructure.DataAccess
 
                 if (categories != null)
                 {
-                    foreach (var item in categories)
-                    {
-                        categoryCollection.InsertOneAsync(item);
-                    }
+                    categoryCollection.InsertManyAsync(categories);
                 }
             }
         }

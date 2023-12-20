@@ -18,10 +18,7 @@ namespace OnlineStore.CatalogService.Infrastructure.DataAccess
 
                 if (applicationTypes != null)
                 {
-                    foreach (var item in applicationTypes)
-                    {
-                        applicationTypeCollection.InsertOneAsync(item);
-                    }
+                    applicationTypeCollection.InsertManyAsync(applicationTypes);
                 }
             }
         }
