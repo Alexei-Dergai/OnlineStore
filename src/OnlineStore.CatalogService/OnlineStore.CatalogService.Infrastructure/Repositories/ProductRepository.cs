@@ -4,6 +4,7 @@ using OnlineStore.CatalogService.Domain.Entities;
 using OnlineStore.CatalogService.Domain.Repositories;
 using OnlineStore.CatalogService.Domain.Specs;
 using OnlineStore.CatalogService.Infrastructure.DataAccess;
+using OnlineStore.CatalogService.Infrastructure.Extensions;
 
 namespace OnlineStore.CatalogService.Infrastructure.Repositories
 {
@@ -88,8 +89,7 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                     .Products
                     .Find(filter)
                     .Sort(Builders<Product>.Sort.Ascending("Name"))
-                    .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
-                    .Limit(catalogSpecParams.PageSize)
+                    .AddPagination(catalogSpecParams.PageSize, catalogSpecParams.PageIndex)
                     .ToListAsync(),
                 Count = await _context.Products.CountDocumentsAsync(p => true)
             };
@@ -104,24 +104,21 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                         .Products
                         .Find(filter)
                         .Sort(Builders<Product>.Sort.Ascending("Price"))
-                        .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
-                        .Limit(catalogSpecParams.PageSize)
+                        .AddPagination(catalogSpecParams.PageSize, catalogSpecParams.PageIndex)
                         .ToListAsync();
                 case SortOrder.Desc:
                     return await _context
                         .Products
                         .Find(filter)
                         .Sort(Builders<Product>.Sort.Descending("Price"))
-                        .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
-                        .Limit(catalogSpecParams.PageSize)
+                        .AddPagination(catalogSpecParams.PageSize, catalogSpecParams.PageIndex)
                         .ToListAsync();
                 default:
                     return await _context
                         .Products
                         .Find(filter)
                         .Sort(Builders<Product>.Sort.Ascending("Name"))
-                        .Skip(catalogSpecParams.PageSize * (catalogSpecParams.PageIndex - 1))
-                        .Limit(catalogSpecParams.PageSize)
+                        .AddPagination(catalogSpecParams.PageSize, catalogSpecParams.PageIndex)
                         .ToListAsync();
             }
         }
