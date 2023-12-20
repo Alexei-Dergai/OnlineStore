@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using OnlineStore.CatalogService.Domain.Entities;
 using OnlineStore.CatalogService.Domain.Repositories;
 using OnlineStore.CatalogService.Domain.Specs;
-using OnlineStore.CatalogService.Infrastructure.DataAccess;
+using OnlineStore.CatalogService.Infrastructure.DataAccess.Contracts;
 using OnlineStore.CatalogService.Infrastructure.Extensions;
 
 namespace OnlineStore.CatalogService.Infrastructure.Repositories

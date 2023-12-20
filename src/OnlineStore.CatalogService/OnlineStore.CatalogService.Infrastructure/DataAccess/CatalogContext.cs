@@ -1,30 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using OnlineStore.CatalogService.Domain.Entities;
+using OnlineStore.CatalogService.Infrastructure.DataAccess.Contracts;
 
 namespace OnlineStore.CatalogService.Infrastructure.DataAccess
 {
     public class CatalogContext : ICatalogContext
     {
-        public IMongoCollection<Product> Products { get; }
-        public IMongoCollection<ApplicationType> ApplicationTypes { get; }
-        public IMongoCollection<Category> Categories { get; }
-
-        public CatalogContext(IConfiguration configuration)
-        {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
-
-            ApplicationTypes = database.GetCollection<ApplicationType>(
-                configuration.GetValue<string>("DatabaseSettings:ApplicationTypesCollection"));
-            Categories = database.GetCollection<Category>(
-                configuration.GetValue<string>("DatabaseSettings:CategoriesCollection"));
-            Products = database.GetCollection<Product>(
-                configuration.GetValue<string>("DatabaseSettings:CollectionName"));
-
-            ApplicationTypeContextSeed.SeedData(ApplicationTypes);
-            CategoryContextSeed.SeedData(Categories);
-            CatalogContextSeed.SeedData(Products);
-        }
+        public IMongoCollection<Product> Products { get; set; }
+        public IMongoCollection<ApplicationType> ApplicationTypes { get; set; }
+        public IMongoCollection<Category> Categories { get; set; }
     }
 }

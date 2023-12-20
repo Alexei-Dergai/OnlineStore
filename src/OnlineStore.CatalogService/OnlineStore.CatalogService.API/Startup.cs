@@ -2,9 +2,11 @@
 using Microsoft.OpenApi.Models;
 using OnlineStore.CatalogService.API.Extensions;
 using OnlineStore.CatalogService.API.Middlewares;
+using OnlineStore.CatalogService.API.Settings;
 using OnlineStore.CatalogService.Application.Handlers;
 using OnlineStore.CatalogService.Domain.Repositories;
 using OnlineStore.CatalogService.Infrastructure.DataAccess;
+using OnlineStore.CatalogService.Infrastructure.DataAccess.Contracts;
 using OnlineStore.CatalogService.Infrastructure.Repositories;
 using System.Reflection;
 
@@ -21,6 +23,8 @@ namespace OnlineStore.CatalogService.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MongoDbSettings>(_configuration.GetSection(MongoDbSettings.SectionName));
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog.API", Version = "v1" }); });
             services.AddRouting(options =>
             {
@@ -33,14 +37,19 @@ namespace OnlineStore.CatalogService.API
             services.AddApiVersioning();
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(CreateProductHandler).GetTypeInfo().Assembly);
-            services.AddScoped<ICatalogContext, CatalogContext>();
+
+            services.AddDbContextRegistration(_configuration);
+
+            services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepository, ProductRepository>();
             services.AddScoped<IApplicationTypeRepository, ProductRepository>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbSeeder dbSeeder)
         {
+            dbSeeder.Seed();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
