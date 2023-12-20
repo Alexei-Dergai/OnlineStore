@@ -94,6 +94,32 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                 Count = await _context.Products.CountDocumentsAsync(p => true)
             };
         }
+        
+        public async Task<Product> GetProductAsync(string id)
+        {
+            return await _context.Products.Find(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductByCategoryAsync(string name)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Category!.Name, name);
+
+            return await _context.Products.Find(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductByNameAsync(string name)
+        {
+            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Name, name);
+
+            return await _context.Products.Find(filter).ToListAsync();
+        }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            var updateResult = await _context.Products.ReplaceOneAsync(x => x.Id == product.Id, product);
+
+            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
+        }
 
         private async Task<IReadOnlyList<Product>> DataFilter(CatalogSpecParams catalogSpecParams, FilterDefinition<Product> filter)
         {
@@ -121,32 +147,6 @@ namespace OnlineStore.CatalogService.Infrastructure.Repositories
                         .AddPagination(catalogSpecParams.PageSize, catalogSpecParams.PageIndex)
                         .ToListAsync();
             }
-        }
-
-        public async Task<Product> GetProductAsync(string id)
-        {
-            return await _context.Products.Find(x => x.Id == id).FirstOrDefaultAsync();
-        }
-
-        public async Task<IEnumerable<Product>> GetProductByCategoryAsync(string name)
-        {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Category!.Name, name);
-
-            return await _context.Products.Find(filter).ToListAsync();
-        }
-
-        public async Task<IEnumerable<Product>> GetProductByNameAsync(string name)
-        {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(x => x.Name, name);
-
-            return await _context.Products.Find(filter).ToListAsync();
-        }
-
-        public async Task<bool> UpdateProductAsync(Product product)
-        {
-            var updateResult = await _context.Products.ReplaceOneAsync(x => x.Id == product.Id, product);
-
-            return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
     }
 }
