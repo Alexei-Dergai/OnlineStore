@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineStore.BasketService.Application.Exceptions;
 using OnlineStore.BasketService.Application.Mappers;
 using OnlineStore.BasketService.Application.Queries;
 using OnlineStore.BasketService.Application.Responses;
@@ -16,8 +17,14 @@ namespace OnlineStore.BasketService.Application.Handlers
         }
         public async Task<ShoppingCartResponse> Handle(GetBasketByUserNameQuery request, CancellationToken cancellationToken)
         {
-            var shoppingCart = await _basketRepository.GetBasket(request.UserName);
+            if (request.UserName == null)
+            {
+                throw new NotFoundException("Product not found");
+            }
+
+            var shoppingCart = await _basketRepository.GetBasketAsync(request.UserName);
             var shoppingCartResponse = BasketMapper.Mapper.Map<ShoppingCartResponse>(shoppingCart);
+
             return shoppingCartResponse!;
         }
     }

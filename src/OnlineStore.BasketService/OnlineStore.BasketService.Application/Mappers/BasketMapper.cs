@@ -11,7 +11,9 @@ namespace OnlineStore.BasketService.Application.Mappers
                 cfg.ShouldMapProperty = p => p.GetMethod!.IsPublic || p.GetMethod.IsAssembly;
                 cfg.AddProfile<BasketMappingProfile>();
             });
+
             var mapper = config.CreateMapper();
+
             return mapper;
         });
 

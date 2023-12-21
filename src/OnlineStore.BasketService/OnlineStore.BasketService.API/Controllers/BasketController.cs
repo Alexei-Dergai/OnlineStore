@@ -17,7 +17,7 @@ namespace OnlineStore.BasketService.API.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{userName}", Name = "GetBasketByUserName")]
+        [Route("basket")]
         [ProducesResponseType(typeof(ShoppingCartResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCartResponse>> GetBasket(string userName)
         {
@@ -27,7 +27,7 @@ namespace OnlineStore.BasketService.API.Controllers
             return Ok(basket);
         }
 
-        [HttpPost("CreateBasket")]
+        [HttpPost("basket")]
         [ProducesResponseType(typeof(ShoppingCartResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCartResponse>> UpdateBasket([FromBody] CreateShoppingCartCommand createShoppingCartCommand)
         {
@@ -37,7 +37,7 @@ namespace OnlineStore.BasketService.API.Controllers
         }
 
         [HttpDelete]
-        [Route("[action]/{userName}", Name = "DeleteBasketByUserName")]
+        [Route("basket")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCartResponse>> DeleteBasket(string userName)
         {

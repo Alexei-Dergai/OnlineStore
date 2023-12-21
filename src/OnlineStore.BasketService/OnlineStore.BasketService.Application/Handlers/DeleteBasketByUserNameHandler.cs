@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineStore.BasketService.Application.Exceptions;
 using OnlineStore.BasketService.Application.Queries;
 using OnlineStore.BasketService.Domain.Repositories;
 
@@ -14,7 +15,13 @@ namespace OnlineStore.BasketService.Application.Handlers
         }
         public async Task<Unit> Handle(DeleteBasketByUserNameQuery request, CancellationToken cancellationToken)
         {
-            await _basketRepository.DeleteBasket(request.UserName);
+            if (request.UserName == null)
+            {
+                throw new NotFoundException("Product not found");
+            }
+
+            await _basketRepository.DeleteBasketAsync(request.UserName);
+
             return Unit.Value;
         }
     }

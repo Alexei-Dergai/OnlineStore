@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+using OnlineStore.BasketService.API.Extensions;
+using OnlineStore.BasketService.API.Middlewares;
 using OnlineStore.BasketService.Application.Handlers;
 using OnlineStore.BasketService.Domain.Repositories;
 using OnlineStore.BasketService.Infrastructure.Repositories;
@@ -23,6 +25,7 @@ namespace OnlineStore.BasketService.API
         {
             services.AddControllers();
             services.AddApiVersioning();
+            services.AddHealthChecksRegistration(Configuration);
 
             services.AddStackExchangeRedisCache(options =>
             {
@@ -30,7 +33,10 @@ namespace OnlineStore.BasketService.API
             });
 
             services.AddMediatR(typeof(CreateShoppingCartCommandHandler).GetTypeInfo().Assembly);
+
+            services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(x =>
@@ -38,7 +44,11 @@ namespace OnlineStore.BasketService.API
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "BasketService.API", Version = "v1" });
             });
 
-            services.AddHealthChecks().AddRedis(Configuration["CacheSettings:ConnectionString"]!, "Redis Health", HealthStatus.Degraded);
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -53,15 +63,8 @@ namespace OnlineStore.BasketService.API
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                {
-                    Predicate = _=> true,
-                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-                });
-            });
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.AddEndPointsRegistration();
 
         }
     }

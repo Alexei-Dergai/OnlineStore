@@ -15,14 +15,17 @@ namespace OnlineStore.BasketService.Application.Handlers
         {
             _basketRepository = basketRepository;
         }
+
         public async Task<ShoppingCartResponse> Handle(CreateShoppingCartCommand request, CancellationToken cancellationToken)
         {
-            var shoppingCart = await _basketRepository.UpdateBasket(new ShoppingCart
+            var shoppingCart = await _basketRepository.UpdateBasketAsync(new ShoppingCart
             {
                 UserName = request.UserName,
                 Items = request.Items
             });
+
             var shoppingCartResponse = BasketMapper.Mapper.Map<ShoppingCartResponse>(shoppingCart);
+
             return shoppingCartResponse;
         }
     }
