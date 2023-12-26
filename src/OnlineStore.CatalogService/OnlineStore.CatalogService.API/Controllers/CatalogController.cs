@@ -18,7 +18,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("products/{id}")]
+        [Route("product/{id}")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<ActionResult<ProductResponse>> GetProductById(string id)
@@ -30,7 +30,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("products")]
+        [Route("product")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetProductByProductName(string product)
         {
@@ -41,7 +41,7 @@ namespace OnlineStore.CatalogService.API.Controllers
         }
 
         [HttpGet]
-        [Route("all-products")]
+        [Route("products")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts([FromQuery] CatalogSpecParams catalogSpecParams)
         {
