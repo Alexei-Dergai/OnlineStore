@@ -15,35 +15,45 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OnlineStore.BasketService",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OnlineStore.IdentityService", "OnlineStore.IdentityService", "{707157EE-3EC9-4243-BA89-B643BF1DAB10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.IdentityService.BLL", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.BLL\OnlineStore.IdentityService.BLL.csproj", "{9D160102-B72F-4BA8-BCE6-D153E2B6E446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.IdentityService.BLL", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.BLL\OnlineStore.IdentityService.BLL.csproj", "{9D160102-B72F-4BA8-BCE6-D153E2B6E446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.IdentityService.DAL", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.DAL\OnlineStore.IdentityService.DAL.csproj", "{25019EC5-F0EB-4F0C-A1E7-A8FBBEDC5465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.IdentityService.DAL", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.DAL\OnlineStore.IdentityService.DAL.csproj", "{25019EC5-F0EB-4F0C-A1E7-A8FBBEDC5465}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.IdentityService.API", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.API\OnlineStore.IdentityService.API.csproj", "{31301032-4594-4500-928E-F708DCB8C2A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.IdentityService.API", "src\OnlineStore.IdentityService\OnlineStore.IdentityService.API\OnlineStore.IdentityService.API.csproj", "{31301032-4594-4500-928E-F708DCB8C2A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.CatalogService.API", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.API\OnlineStore.CatalogService.API.csproj", "{7423EDE6-DD64-4F3D-9BF6-500E93851AB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.CatalogService.API", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.API\OnlineStore.CatalogService.API.csproj", "{7423EDE6-DD64-4F3D-9BF6-500E93851AB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.CatalogService.Domain", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Domain\OnlineStore.CatalogService.Domain.csproj", "{D46AF92F-F85F-4304-AA65-A1654C16C997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.CatalogService.Domain", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Domain\OnlineStore.CatalogService.Domain.csproj", "{D46AF92F-F85F-4304-AA65-A1654C16C997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.CatalogService.Application", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Application\OnlineStore.CatalogService.Application.csproj", "{627FE3A2-E685-4D19-ACBE-49370F1214CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.CatalogService.Application", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Application\OnlineStore.CatalogService.Application.csproj", "{627FE3A2-E685-4D19-ACBE-49370F1214CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.CatalogService.Infrastructure", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Infrastructure\OnlineStore.CatalogService.Infrastructure.csproj", "{E16E5688-C170-4B89-84D7-031A37F34A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.CatalogService.Infrastructure", "src\OnlineStore.CatalogService\OnlineStore.CatalogService.Infrastructure\OnlineStore.CatalogService.Infrastructure.csproj", "{E16E5688-C170-4B89-84D7-031A37F34A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.OrderService.API", "src\OnlineStore.OrderService\OnlineStore.OrderService.API\OnlineStore.OrderService.API.csproj", "{9DE38EE2-C920-48B3-A281-013C6E1E87EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.OrderService.API", "src\OnlineStore.OrderService\OnlineStore.OrderService.API\OnlineStore.OrderService.API.csproj", "{9DE38EE2-C920-48B3-A281-013C6E1E87EB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7035C5CC-9B6F-4017-A5D1-569E4D993CE9} = {7035C5CC-9B6F-4017-A5D1-569E4D993CE9}
+		{CD47F22F-4764-4285-AFDB-F5B2756368A5} = {CD47F22F-4764-4285-AFDB-F5B2756368A5}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.OrderService.Domain", "src\OnlineStore.OrderService\OnlineStore.OrderService.Domain\OnlineStore.OrderService.Domain.csproj", "{9D0A7ABC-4488-4BAA-9E45-D7F8AC25076E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.OrderService.Domain", "src\OnlineStore.OrderService\OnlineStore.OrderService.Domain\OnlineStore.OrderService.Domain.csproj", "{9D0A7ABC-4488-4BAA-9E45-D7F8AC25076E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.OrderService.Application", "src\OnlineStore.OrderService\OnlineStore.OrderService.Application\OnlineStore.OrderService.Application.csproj", "{7035C5CC-9B6F-4017-A5D1-569E4D993CE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.OrderService.Application", "src\OnlineStore.OrderService\OnlineStore.OrderService.Application\OnlineStore.OrderService.Application.csproj", "{7035C5CC-9B6F-4017-A5D1-569E4D993CE9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9D0A7ABC-4488-4BAA-9E45-D7F8AC25076E} = {9D0A7ABC-4488-4BAA-9E45-D7F8AC25076E}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.OrderService.Infrastructure", "src\OnlineStore.OrderService\OnlineStore.OrderService.Infrastructure\OnlineStore.OrderService.Infrastructure.csproj", "{CD47F22F-4764-4285-AFDB-F5B2756368A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.OrderService.Infrastructure", "src\OnlineStore.OrderService\OnlineStore.OrderService.Infrastructure\OnlineStore.OrderService.Infrastructure.csproj", "{CD47F22F-4764-4285-AFDB-F5B2756368A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7035C5CC-9B6F-4017-A5D1-569E4D993CE9} = {7035C5CC-9B6F-4017-A5D1-569E4D993CE9}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BasketService.API", "src\OnlineStore.BasketService\OnlineStore.BasketService.API\OnlineStore.BasketService.API.csproj", "{08D66CB7-53E6-442E-BAA3-AB073BF1563A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.BasketService.API", "src\OnlineStore.BasketService\OnlineStore.BasketService.API\OnlineStore.BasketService.API.csproj", "{08D66CB7-53E6-442E-BAA3-AB073BF1563A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BasketService.Domain", "src\OnlineStore.BasketService\OnlineStore.BasketService.Domain\OnlineStore.BasketService.Domain.csproj", "{A57C7342-9F29-4AF7-9B60-58105E32F418}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.BasketService.Domain", "src\OnlineStore.BasketService\OnlineStore.BasketService.Domain\OnlineStore.BasketService.Domain.csproj", "{A57C7342-9F29-4AF7-9B60-58105E32F418}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BasketService.Application", "src\OnlineStore.BasketService\OnlineStore.BasketService.Application\OnlineStore.BasketService.Application.csproj", "{BDC15980-9590-4F29-B8B8-7BE6FBF4FF88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.BasketService.Application", "src\OnlineStore.BasketService\OnlineStore.BasketService.Application\OnlineStore.BasketService.Application.csproj", "{BDC15980-9590-4F29-B8B8-7BE6FBF4FF88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.BasketService.Infrastructure", "src\OnlineStore.BasketService\OnlineStore.BasketService.Infrastructure\OnlineStore.BasketService.Infrastructure.csproj", "{DC0CBDAF-CF91-46E8-8909-E11C1C2D3C81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.BasketService.Infrastructure", "src\OnlineStore.BasketService\OnlineStore.BasketService.Infrastructure\OnlineStore.BasketService.Infrastructure.csproj", "{DC0CBDAF-CF91-46E8-8909-E11C1C2D3C81}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C4215013-72D5-42C6-88A7-5AC085DDAA55}"
 EndProject

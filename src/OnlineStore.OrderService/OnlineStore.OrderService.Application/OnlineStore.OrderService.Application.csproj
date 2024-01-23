@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.23" />
@@ -14,6 +17,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineStore.OrderService.Domain\OnlineStore.OrderService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
