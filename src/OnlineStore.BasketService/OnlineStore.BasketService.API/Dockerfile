@@ -8,6 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/OnlineStore.BasketService/OnlineStore.BasketService.API/OnlineStore.BasketService.API.csproj", "src/OnlineStore.BasketService/OnlineStore.BasketService.API/"]
+COPY ["src/OnlineStore.BasketService/OnlineStore.BasketService.API/OnlineStore.BasketService.Application.csproj", "src/OnlineStore.BasketService/OnlineStore.BasketService.Application/"]
+COPY ["src/OnlineStore.BasketService/OnlineStore.BasketService.API/OnlineStore.BasketService.Domain.csproj", "src/OnlineStore.BasketService/OnlineStore.BasketService.Domain/"]
+COPY ["src/OnlineStore.BasketService/OnlineStore.BasketService.API/OnlineStore.BasketService.Infrastructure.csproj", "src/OnlineStore.BasketService/OnlineStore.BasketService.Infrastructure/"]
 RUN dotnet restore "src/OnlineStore.BasketService/OnlineStore.BasketService.API/OnlineStore.BasketService.API.csproj"
 COPY . .
 WORKDIR "/src/src/OnlineStore.BasketService/OnlineStore.BasketService.API"

@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   onlinestore.basketservice.api:
     image: ${DOCKER_REGISTRY-}onlinestorebasketserviceapi
     build:
@@ -27,3 +28,5 @@ services:
       context: .
       dockerfile: src/OnlineStore.OrderService/OnlineStore.OrderService.API/Dockerfile
 
+volumes:
+  mongo_data:

@@ -1,45 +1,58 @@
 version: '3.4'
 
 services:
-  onlinestore.basketservice.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  onlinestore.catalogservice.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    catalogdb:
+        container_name: catalogdb
+        restart: always
+        ports:
+        - "27017:27017"
+        volumes:
+        - mongo_data:/data/db
+      
+    basketdb:
+        container_name: basketdb
+        restart: always
+        ports:
+        - "6379:6379"
 
-  onlinestore.identityservice.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    onlinestore.basketservice.api:
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - "CacheSettings__ConnectionString=basketdb:6379"
+        depends_on:
+            - basketdb
+        ports:
+            - "9001:80"
 
-  onlinestore.orderservice.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "80"
-      - "443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    onlinestore.catalogservice.api:
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+        ports:
+          - "80"
+          - "443"
+        volumes:
+          - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+          - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+    onlinestore.identityservice.api:
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+        ports:
+          - "80"
+          - "443"
+        volumes:
+          - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+          - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+    onlinestore.orderservice.api:
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - ASPNETCORE_URLS=https://+:443;http://+:80
+        ports:
+          - "80"
+          - "443"
+        volumes:
+          - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+          - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
