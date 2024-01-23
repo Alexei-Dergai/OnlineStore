@@ -8,6 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/OnlineStore.CatalogService/OnlineStore.CatalogService.API/OnlineStore.CatalogService.API.csproj", "src/OnlineStore.CatalogService/OnlineStore.CatalogService.API/"]
+COPY ["src/OnlineStore.CatalogService/OnlineStore.CatalogService.Application/OnlineStore.CatalogService.Application.csproj", "src/OnlineStore.CatalogService/OnlineStore.CatalogService.Application/"]
+COPY ["src/OnlineStore.CatalogService/OnlineStore.CatalogService.Domian/OnlineStore.CatalogService.Domian.csproj", "src/OnlineStore.CatalogService/OnlineStore.CatalogService.Domain/"]
+COPY ["src/OnlineStore.CatalogService/OnlineStore.CatalogService.Infrastructure/OnlineStore.CatalogService.Infrastructure.csproj", "src/OnlineStore.CatalogService/OnlineStore.CatalogService.Infrastructure/"]
 RUN dotnet restore "src/OnlineStore.CatalogService/OnlineStore.CatalogService.API/OnlineStore.CatalogService.API.csproj"
 COPY . .
 WORKDIR "/src/src/OnlineStore.CatalogService/OnlineStore.CatalogService.API"
