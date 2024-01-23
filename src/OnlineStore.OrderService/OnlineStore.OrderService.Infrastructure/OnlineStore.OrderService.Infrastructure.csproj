@@ -16,4 +16,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineStore.OrderService.Domain\OnlineStore.OrderService.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
